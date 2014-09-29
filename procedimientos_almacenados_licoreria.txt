@@ -1,0 +1,132 @@
+-- Procedimiento almacenado para saber cual es la factura de compra que tiene un producto con una diferencia mayor de 0 en cuanto al mismo en la factura de venta..
+
+DROP PROCEDURE IF EXISTS ultimasFacturas;
+DELIMITER $
+CREATE PROCEDURE ultimasFacturas(IN idProd VARCHAR(3), IN cantidadVenta INT)
+BEGIN
+
+DECLARE bContinuar BOOLEAN DEFAULT true;
+DECLARE fecha_compra DATE;
+DECLARE diferencia INT;
+DECLARE num_fact VARCHAR(40);
+DECLARE nom_prod VARCHAR(32);
+DECLARE ttlLitros DOUBLE;
+DECLARE cantidadCompra INT;
+DECLARE ultimaFactBD CHAR(20);
+
+DECLARE cursor1 CURSOR FOR SELECT e.fact_ent, e.cant_compra FROM entrada e, fact_compra fc WHERE e.id_prod=idProd AND e.fact_ent=fc.num_fact AND fc.fecha_compra >= fecha_compra AND e.fact_ent>=ultimaFactBD ORDER BY fc.fecha_compra;
+
+DECLARE cursor2 CURSOR FOR SELECT e.fact_ent, e.cant_compra FROM entrada e, fact_compra fc WHERE e.id_prod= idProd AND e.fact_ent=fc.num_fact ORDER BY fc.fecha_compra LIMIT 1;
+
+DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET bContinuar = false;
+
+DROP TEMPORARY TABLE IF EXISTS tabla_temporal;
+CREATE TEMPORARY TABLE IF NOT EXISTS tabla_temporal(num_fact CHAR(20) NOT NULL PRIMARY KEY, id_prod CHAR(3) NOT NULL, nombre_prod VARCHAR(32) NOT NULL, cant_venta INT NOT NULL, ttl_litros DOUBLE NOT NULL, diferencia INT NOT NULL);
+
+SET fecha_compra= (SELECT fc.fecha_compra FROM salida s, fact_compra fc WHERE s.id_prod=idProd AND s.fact_ent=fc.num_fact ORDER BY fc.fecha_compra DESC LIMIT 1);
+SET nom_prod= (SELECT nombre_prod FROM producto WHERE id_prod=idProd);
+SET ttlLitros= (SELECT contenido FROM producto WHERE id_prod=idProd);
+SET ultimaFactBD= (SELECT fact_ent FROM salida WHERE id_prod=idProd ORDER BY fact_ent DESC LIMIT 1);
+
+IF fecha_compra IS NULL THEN
+	OPEN cursor2;
+	FETCH cursor2 INTO num_fact, cantidadCompra;
+	SET diferencia= cantidadCompra-cantidadVenta;
+	IF diferencia>=0 THEN
+		INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadVenta, (ttlLitros*cantidadVenta), diferencia);
+	END IF;
+	CLOSE cursor2;
+
+ELSE
+	OPEN cursor1;
+	REPEAT
+	FETCH cursor1 INTO num_fact, cantidadCompra;
+
+		IF bContinuar THEN
+			IF num_fact = ultimaFactBD THEN
+				SET cantidadCompra= cantidadCompra - (SELECT SUM(can_venta) FROM salida WHERE id_prod=idProd AND fact_ent= num_fact);
+			END IF;		
+
+			SET diferencia= cantidadCompra - cantidadVenta;
+
+			IF diferencia<0 THEN
+				INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadCompra, (cantidadCompra*ttlLitros), 0);
+				SET cantidadVenta= diferencia * -1;
+
+				ELSEIF diferencia>=0 THEN
+					INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadVenta, (ttlLitros*cantidadVenta), diferencia);
+					SET bContinuar= false;
+			END IF;
+		END IF;
+
+	UNTIL NOT bContinuar END REPEAT;
+	CLOSE cursor1;
+END IF;
+
+IF diferencia<0 THEN
+	INSERT INTO tabla_temporal VALUES('0','0', nom_prod, 0, 0, diferencia);
+END IF;
+
+SELECT * FROM tabla_temporal;
+
+END $
+DELIMITER ;
+
+--PROCEDIMIENTOS ALMACENADO DONDE AGRUPA LOS ITEMS QUE SE REPITEN EN UNA FACTURA SALIDA
+
+DROP PROCEDURE IF EXISTS getItems;
+DELIMITER $
+CREATE PROCEDURE getItems(IN factSal CHAR(20))
+BEGIN
+
+DECLARE bContinuar BOOLEAN DEFAULT true;
+DECLARE prodId INT;
+DECLARE prodNom VARCHAR(32);
+DECLARE cant INT;
+DECLARE litros DOUBLE;
+DECLARE controlId INT;
+DECLARE controlNom VARCHAR(32);
+DECLARE controlCant INT;
+DECLARE controLitros DOUBLE;
+DECLARE constante INT DEFAULT 0;
+
+DECLARE cursor1 CURSOR FOR SELECT s.id_prod, p.nombre_prod, s.can_venta, s.ttl_cont FROM salida s, producto p WHERE s.fact_sal=factSal AND s.id_prod=p.id_prod;
+
+DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET bContinuar= false;
+
+DROP TEMPORARY TABLE IF EXISTS tabla_getItems;
+CREATE TEMPORARY TABLE IF NOT EXISTS tabla_getItems(id_prod INT NOT NULL PRIMARY KEY, nombre_prod VARCHAR(32) NOT NULL, can_venta INT NOT NULL, ttl_litros DOUBLE NOT NULL);
+
+OPEN cursor1;
+REPEAT
+FETCH cursor1 INTO prodId, prodNom, cant, litros;
+IF bContinuar THEN
+	IF constante = 0 THEN
+		SET controlId= prodId;
+		SET controlNom= prodNom;
+		SET controlCant= cant;
+		SET controLitros= litros;
+		SET constante=1;	
+
+	ELSEIF controlId = prodId THEN
+		SET controlCant= controlCant+cant;
+		SET controLitros= controLitros+litros;
+
+	ELSE
+		INSERT INTO tabla_getItems VALUES(controlId, controlNom, controlCant, controLitros);
+		SET controlId= prodId;
+		SET controlNom= prodNom;
+		SET controlCant= cant;
+		SET controLitros= litros;
+	END IF;
+END IF;
+
+UNTIL NOT bContinuar END REPEAT;
+CLOSE cursor1;
+
+INSERT INTO tabla_getItems VALUES(controlId, controlNom, controlCant, controLitros);
+
+SELECT * FROM tabla_getItems;
+
+END $
+DELIMITER ;

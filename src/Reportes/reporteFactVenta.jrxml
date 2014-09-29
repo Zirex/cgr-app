@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6465c1f4-544d-4b02-b823-5fc201587c69">
+	<property name="ireport.zoom" value="0.9090909090909096"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="numFact" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="subReporteVenta" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT fv.id_fact, fv.fecha_venta, fv.rif_clie, c.rs_clie, c.dir_clie FROM fact_venta fv, cliente c WHERE fv.id_fact=$P{numFact} AND fv.rif_clie=c.rif_clie;]]>
+	</queryString>
+	<field name="id_fact" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_venta" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rif_clie" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rs_clie" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dir_clie" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement uuid="465ea4b4-e971-4637-8b1e-1111d30c6aef" x="0" y="0" width="555" height="79"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="126" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement uuid="6b8e60ce-a705-4400-99df-534435649d08" x="80" y="11" width="381" height="28" backcolor="#93CEAB"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="0f676b76-0cfb-4dba-aff0-3946f7f8fbbf" x="80" y="15" width="381" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Detalle factura venta]]></text>
+			</staticText>
+			<rectangle radius="10">
+				<reportElement uuid="528a1fa2-8733-4ad9-9022-f72f09a5df54" x="39" y="45" width="238" height="71"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="984e4df5-1216-4bc0-8be7-1a460604afb3" x="294" y="55" width="217" height="56" backcolor="#CCCCCC"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="abc454bf-9139-4e6f-8cf3-cc0cdbe61148" x="287" y="45" width="219" height="60"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="1e170a61-6807-41fc-add3-689c823e377a" x="50" y="56" width="46" height="13"/>
+				<textElement/>
+				<text><![CDATA[R.I.F.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7b48d586-374f-45dd-9eee-07e5d4218cee" x="50" y="73" width="70" height="15"/>
+				<textElement/>
+				<text><![CDATA[Razón Social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="41c262d0-2c09-4cdf-8cda-bccf018b5c3e" x="50" y="92" width="70" height="14"/>
+				<textElement/>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="b29299e2-fb98-49ab-90dc-e1a89aa39d60" x="120" y="56" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{rif_clie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7149f266-c856-443a-b6ed-a8149f857d0e" x="120" y="73" width="145" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{rs_clie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4ddf4069-e352-45c4-bed0-72914f8c5019" x="120" y="92" width="157" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{dir_clie}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="d02623ec-c9ec-4336-8edb-b03d1b202822" x="294" y="55" width="100" height="14"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Factura N°]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2bf730fd-6927-45c5-9b59-8bd90f6654a3" x="397" y="56" width="100" height="13"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Fecha de Factura]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="1a1b7c5d-02eb-4e66-b415-6f96cf90f11c" x="294" y="72" width="100" height="33"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_fact}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b2a8b636-b0a4-4e07-a167-bccc42ebf6ee" x="397" y="73" width="100" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{fecha_venta})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="59ccb6c0-1888-453d-b3cc-b08396b33e1e" x="0" y="0" width="555" height="61"/>
+				<subreportParameter name="numFact">
+					<subreportParameterExpression><![CDATA[$P{numFact}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{subReporteVenta}]]></subreportExpression>
+			</subreport>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

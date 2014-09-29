@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0053acb8-63da-4eb0-9c69-1b6059304183">
+	<property name="ireport.zoom" value="1.1000000000000008"/>
+	<property name="ireport.x" value="24"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="status" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="status1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM producto WHERE status=$P{status} OR status=$P{status1} ORDER BY nombre_prod;]]>
+	</queryString>
+	<field name="id_prod" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_prod" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="grados_alco" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contenido" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="existencia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fabricacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="status" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="2" y="0" width="553" height="79" uuid="498e95e7-eab0-44c3-a08a-e3f0f7374691"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="47" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="83" y="11" width="390" height="25" backcolor="#93CEAB" uuid="27b9153c-0669-43e7-94cf-2b4b299a0039"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="84" y="12" width="390" height="22" uuid="171d31e2-57a4-4bbe-9a06-031a832ee596"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Listado de productos existentes]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="2" y="2" width="553" height="20" backcolor="#93CEAB" uuid="77a6953b-7c17-470c-8f4e-835acc19b9aa"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="56" y="2" width="100" height="20" uuid="8901be4a-fda3-4591-ba82-bd8c549f8f70"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<text><![CDATA[nombre producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="2" width="44" height="20" uuid="7288a3dc-a7aa-4fd2-ab11-9affc0c5b292"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<text><![CDATA[id prod]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="156" y="2" width="124" height="20" uuid="5de9adec-4fd1-4a02-9821-4e9cc0b4f3e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<text><![CDATA[descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="2" width="76" height="20" uuid="f0ca0e3c-cc06-450a-99b7-33f3ab6485fc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<text><![CDATA[grados alcohol]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="2" width="60" height="20" uuid="d6245545-caf2-4805-8356-8591f77a0c71"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<text><![CDATA[contenido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="416" y="2" width="63" height="20" uuid="f2664603-3786-433e-a0bc-8b6e71e9bb5e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<text><![CDATA[existencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="479" y="2" width="66" height="20" uuid="0c1e7827-1d51-492a-a077-dac0abafce9b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog" size="10"/>
+				</textElement>
+				<text><![CDATA[fabricación]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="56" y="0" width="100" height="20" uuid="c7b6b03e-ce8f-4047-b5b0-5464e7b66aa2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_prod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="0" width="44" height="20" uuid="42b2551f-1c01-452d-99ab-3b2ece3aacef"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_prod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="0" width="124" height="20" uuid="60ee4580-6047-40d2-b6f0-2de5ac47f1a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="76" height="20" uuid="ef0c549c-cbee-453d-8b08-f27e8c327f15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grados_alco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="0" width="60" height="20" uuid="492eea99-c7e4-4dc0-875c-7db1334c26aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contenido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="0" width="63" height="20" uuid="a6930825-0a1a-4b43-8e29-5c7e165e5e85"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{existencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="479" y="0" width="66" height="20" uuid="ea161cd2-5f80-485d-898d-1e4adb99fa97"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Dialog"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fabricacion}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="12" y="21" width="533" height="1" uuid="dc60b475-5107-4120-a9c2-bec3d356a8f6"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
