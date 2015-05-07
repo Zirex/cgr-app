@@ -1,3 +1,6 @@
 /dist
 /build
 /nbproject/private/
+
+# Architech base de datos
+BDLicoreria.architect~

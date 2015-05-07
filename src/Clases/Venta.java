@@ -100,7 +100,7 @@ public class Venta extends Conexion{
     }
     
     private void adicionarItemVenta(String idProd, int cantidad){
-        
+        this.productosNegativos.clear();
         if(!GuiPrincipal.listaFactCompProdExistentes.isEmpty()){
             for (HashMap compra : GuiPrincipal.listaFactCompProdExistentes) {
                 if(compra.containsValue(idProd)){

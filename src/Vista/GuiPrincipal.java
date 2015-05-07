@@ -192,7 +192,7 @@ public class GuiPrincipal extends javax.swing.JFrame {
         else{
             ibus.moveToFront();
             try{
-                iven.setIcon(false);
+                ibus.setIcon(false);
             }catch(PropertyVetoException ex){
                 System.err.println(ex.getMessage());
             }

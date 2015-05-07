@@ -438,10 +438,10 @@ public class InternalCompra extends javax.swing.JInternalFrame {
                 String msj="La factura no fue actualizada..\nNo se encontraron cambios en los registros de la base de datos";
                 if(!fecha.equals(this.cp.getFechaFac())){
                     this.cp.setFechaFac(fecha);
-                    msj="La factura se actualizo correctamente";
+                    msj="La fecha de la factura se actualizo correctamente";
                 }
                 if(this.cp.setItemsCompra(data)){
-                    msj="La factura se actualizo correctamente 1";
+                    msj="La factura se actualizo correctamente";
                 }
                 this.actualizarProvs(rifProv, rsProv);
                 JOptionPane.showMessageDialog(this, msj, "Informacion", JOptionPane.INFORMATION_MESSAGE);

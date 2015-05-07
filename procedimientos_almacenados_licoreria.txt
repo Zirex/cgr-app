@@ -16,7 +16,7 @@ DECLARE ultimaFactBD CHAR(20);
 
 DECLARE cursor1 CURSOR FOR SELECT e.fact_ent, e.cant_compra FROM entrada e, fact_compra fc WHERE e.id_prod=idProd AND e.fact_ent=fc.num_fact AND fc.fecha_compra >= fecha_compra AND e.fact_ent>=ultimaFactBD ORDER BY fc.fecha_compra;
 
-DECLARE cursor2 CURSOR FOR SELECT e.fact_ent, e.cant_compra FROM entrada e, fact_compra fc WHERE e.id_prod= idProd AND e.fact_ent=fc.num_fact ORDER BY fc.fecha_compra LIMIT 1;
+DECLARE cursor2 CURSOR FOR SELECT e.fact_ent, e.cant_compra FROM entrada e, fact_compra fc WHERE e.id_prod= idProd AND e.fact_ent=fc.num_fact ORDER BY fc.fecha_compra;
 
 DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET bContinuar = false;
 
@@ -30,11 +30,19 @@ SET ultimaFactBD= (SELECT fact_ent FROM salida WHERE id_prod=idProd ORDER BY fac
 
 IF fecha_compra IS NULL THEN
 	OPEN cursor2;
+	REPEAT
 	FETCH cursor2 INTO num_fact, cantidadCompra;
-	SET diferencia= cantidadCompra-cantidadVenta;
-	IF diferencia>=0 THEN
-		INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadVenta, (ttlLitros*cantidadVenta), diferencia);
-	END IF;
+		IF bContinuar THEN
+			SET diferencia= cantidadCompra-cantidadVenta;
+			IF diferencia<0 THEN
+				INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadCompra, (cantidadCompra*ttlLitros), 0);
+				SET cantidadVenta= diferencia * -1;
+			ELSE
+				INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadVenta, (ttlLitros*cantidadVenta), diferencia);
+				SET bContinuar= false;
+			END IF;
+		END IF;
+	UNTIL NOT bContinuar END REPEAT;
 	CLOSE cursor2;
 
 ELSE

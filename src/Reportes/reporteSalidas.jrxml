@@ -7,7 +7,7 @@
 	<parameter name="fechaFin" class="java.util.Date"/>
 	<parameter name="logo" class="java.io.InputStream"/>
 	<queryString>
-		<![CDATA[SELECT fv.fecha_venta, s.fact_ent, c.rs_clie, c.dir_clie, p.nombre_prod, p.grados_alco, s.ttl_cont, p.fabricacion FROM fact_venta fv, salida s, cliente c, producto p WHERE s.fact_ent=fv.id_fact AND s.id_prod=p.id_prod AND fv.rif_clie=c.rif_clie AND fv.fecha_venta BETWEEN $P{fechaInicio} AND $P{fechaFin} ORDER BY fv.fecha_venta, p.fabricacion;]]>
+		<![CDATA[SELECT fv.fecha_venta, s.fact_ent, c.rs_clie, c.dir_clie, p.nombre_prod, p.grados_alco, s.ttl_cont, p.fabricacion FROM fact_venta fv, salida s, cliente c, producto p WHERE s.fact_sal=fv.id_fact AND s.id_prod=p.id_prod AND fv.rif_clie=c.rif_clie AND fv.fecha_venta BETWEEN $P{fechaInicio} AND $P{fechaFin} ORDER BY fv.fecha_venta, p.fabricacion;]]>
 	</queryString>
 	<field name="fecha_venta" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>

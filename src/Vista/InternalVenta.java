@@ -540,8 +540,8 @@ public class InternalVenta extends javax.swing.JInternalFrame {
         if(!txtRif.getText().equals(" -        - ")){
             txtRif.setBorder(new javax.swing.JTextField().getBorder());
             txtRif.setToolTipText(null);
+            this.llenarCampoCliente(this.rifCliente());
         }
-        this.llenarCampoCliente(this.rifCliente());
     }//GEN-LAST:event_txtRifFocusLost
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

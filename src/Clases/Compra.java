@@ -99,7 +99,7 @@ public class Compra extends Conexion{
                     for (int j=0; j< items[i].length; j++) {
                         pstm.setString(j+1, items[i][j]);
                         pstm1.setString(1, items[i][2]);
-                        pstm1.setString(2, items[i][0]);
+                        pstm1.setString(2, items[i][1]);
                     }
                     pstm.execute();
                     pstm1.execute();
