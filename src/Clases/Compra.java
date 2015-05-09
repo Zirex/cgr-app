@@ -239,7 +239,7 @@ public class Compra extends Conexion{
         Object [][] datos= new Object[registros][columnName.length];
         
         try{
-            String sql="SELECT fc.num_fact, fc.fecha_compra, p.rs_prov FROM fact_compra fc, proveedor p ORDER BY fc.fecha_compra";
+            String sql="SELECT fc.num_fact, fc.fecha_compra, p.rs_prov FROM fact_compra fc, proveedor p WHERE fc.rif_prov = p.rif_prov ORDER BY fc.fecha_compra";
             PreparedStatement pstm= con.getConexion().prepareStatement(sql);
             ResultSet res= pstm.executeQuery();
             int i=0;
