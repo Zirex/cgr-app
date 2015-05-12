@@ -7,9 +7,12 @@ package Vista;
 import Clases.Compra;
 import Clases.Producto;
 import Clases.Venta;
+import javax.swing.JTable;
+import javax.swing.JViewport;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -27,6 +30,30 @@ public class InternalBuscador extends javax.swing.JInternalFrame {
         this.cargarTablaVenta();
     }
     
+    private void setAnchoColumnas(JTable tabla){
+        JViewport scroll =  (JViewport) tabla.getParent();
+        int ancho = scroll.getWidth();
+        int anchoColumna=0;
+        TableColumnModel modeloColumna = tabla.getColumnModel();
+        TableColumn columnaTabla;
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            columnaTabla = modeloColumna.getColumn(i);
+            switch(i){
+                case 0: anchoColumna = (13*ancho)/100;
+                        break;
+                case 1: anchoColumna = (90*ancho)/100;
+                        break;
+                case 2: anchoColumna = (35*ancho)/100;
+                        break;
+                case 3: anchoColumna = (40*ancho)/100;
+                        break;
+                case 4: anchoColumna = (40*ancho)/100;
+                        break;
+            }                     
+            columnaTabla.setPreferredWidth(anchoColumna);           
+        }
+    }
+    
     private void cargarTablaPro(){
         AbstractTableModel model= Producto.gestionProducto();
         this.tablaProducto.setModel(model);
@@ -35,6 +62,7 @@ public class InternalBuscador extends javax.swing.JInternalFrame {
         TableColumn colum= this.tablaProducto.getColumnModel().getColumn(4);
         colum.setCellRenderer(new MyTableRenderer.BotonProductoRenderer());
         colum.setCellEditor(new MyTableRenderer.BotonProductoEditor(tablaProducto));
+        this.setAnchoColumnas(tablaProducto);
     }
     
     private void cargarTablaComp(){
@@ -44,6 +72,7 @@ public class InternalBuscador extends javax.swing.JInternalFrame {
         TableColumn colum= this.tablaCompra.getColumnModel().getColumn(3);
         colum.setCellRenderer(new MyTableRenderer.botonCompraVentaRenderer());
         colum.setCellEditor(new MyTableRenderer.BotonCompraVentaEditor(this.tablaCompra, "Compra"));
+        this.setAnchoColumnas(tablaCompra);
     }
     
     private void cargarTablaVenta(){
@@ -53,6 +82,7 @@ public class InternalBuscador extends javax.swing.JInternalFrame {
         TableColumn colum= this.tablaVenta.getColumnModel().getColumn(3);
         colum.setCellRenderer(new MyTableRenderer.botonCompraVentaRenderer());
         colum.setCellEditor(new MyTableRenderer.BotonCompraVentaEditor(tablaVenta, "Venta"));
+        this.setAnchoColumnas(tablaVenta);
     }
 
     /**

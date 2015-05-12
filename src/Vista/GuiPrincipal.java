@@ -66,6 +66,9 @@ public class GuiPrincipal extends javax.swing.JFrame {
         panel = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de control de reportes de licores");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/beer.png")).getImage()
+        );
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

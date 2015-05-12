@@ -170,7 +170,6 @@ public class InternalVenta extends javax.swing.JInternalFrame {
             txtRS.setText(this.cliente.getRsCliente());
             txtDir.setText(this.cliente.getDirCliente());
             this.clientes.add(this.cliente);
-            btnGuardar.setText("Actualizar");
         }
     }
 
@@ -480,7 +479,11 @@ public class InternalVenta extends javax.swing.JInternalFrame {
                 long difDias= diferencia / (24 * 60 * 60 * 1000);
                                 
                 if(difDias <= 7){
-                    this.venta.setItemsVenta(data);
+                    if(this.venta.setItemsVenta(data))
+                        JOptionPane.showMessageDialog(this, 
+                                                      "La factura venta se ha actualizado correctamente",
+                                                      "Actualizacion exitosa", 
+                                                      JOptionPane.INFORMATION_MESSAGE);
                 }
                 else{
                     JOptionPane.showMessageDialog(this, 

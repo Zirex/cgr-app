@@ -102,14 +102,21 @@ public class Venta extends Conexion{
     private void adicionarItemVenta(String idProd, int cantidad){
         this.productosNegativos.clear();
         if(!GuiPrincipal.listaFactCompProdExistentes.isEmpty()){
+            // booleano para comprobar si existe el producto en la lista.
+            boolean existeProducto= false;
             for (HashMap compra : GuiPrincipal.listaFactCompProdExistentes) {
                 if(compra.containsValue(idProd)){
-                    int diferencia= Integer.valueOf(compra.get("diferencia")+"") - cantidad;
+                    existeProducto = true;
+                    int existencia= Integer.valueOf(compra.get("diferencia")+""); 
+                    int diferencia= existencia - cantidad;
+                    int ventaAnterior= Integer.parseInt(compra.get("cant_venta")+"");
+                    float ttlLitros= Float.valueOf(compra.get("ttl_litros")+"");
+                    float contenido= ttlLitros/ventaAnterior; 
                     itemVenta venta= new itemVenta(String.valueOf(this.nunFact),
                                                    compra.get("num_fact")+"",
                                                    idProd,
-                                                   Integer.valueOf(compra.get("cant_venta")+""),
-                                                   Float.valueOf(compra.get("ttl_litros")+""));
+                                                   existencia,
+                                                   contenido);
                     if(diferencia < 0){
                         this.buscarBDFC(idProd, cantidad);
                         if(this.productosNegativos.isEmpty()){
@@ -119,18 +126,22 @@ public class Venta extends Conexion{
                         break;
                     }
                     else if(diferencia == 0){
+                        venta.setTtlCont(existencia*contenido);
                         this.listaItems.add(venta);
                         GuiPrincipal.listaFactCompProdExistentes.remove(compra);
                         break;
                     }
                     else{
                         venta.setCantVenta(cantidad);
-                        venta.setTtlCont(cantidad*Float.valueOf(compra.get("ttl_litros")+""));
+                        venta.setTtlCont(cantidad*contenido);
                         this.listaItems.add(venta);
                         break;
                     }
                 }
             }
+            if(!existeProducto)
+                this.buscarBDFC(idProd, cantidad);
+            
         }
         else{
             this.buscarBDFC(idProd, cantidad);
@@ -171,7 +182,6 @@ public class Venta extends Conexion{
                                                    Integer.valueOf(compra.get("cant_venta")+""),
                                                    Float.valueOf(compra.get("ttl_litros")+""));
                     this.listaItems.add(venta);
-                    System.out.println("el numero de factura es= "+compra.get("num_fact"));
                 }
                 GuiPrincipal.listaFactCompProdExistentes.add(lct.get(size));
             }
@@ -205,7 +215,6 @@ public class Venta extends Conexion{
                 String sql="INSERT INTO salida VALUES(?,?,?,?,?)";
                 Statement s= this.getConexion().createStatement();
                 try (PreparedStatement pstm = this.getConexion().prepareStatement(sql)) {
-                    int i=0;
                     for (itemVenta item: this.listaItems) {
                         pstm.setString(1, item.getFactSal());
                         pstm.setString(2, item.getFacEnt());
@@ -216,7 +225,6 @@ public class Venta extends Conexion{
                         pstm.execute();
                         String sql1="UPDATE producto SET existencia=existencia -"+item.getCantVenta()+" WHERE id_prod="+item.getIdProd();
                         s.execute(sql1);
-                        i++;
                     }
                     pstm.close();
                     s.close();
@@ -289,7 +297,7 @@ public class Venta extends Conexion{
         }
         Object[][] datos= new Object[registros][ColumnName.length];
         try{
-            String sql= "SELECT fv.id_fact, fv.fecha_venta, c.rs_clie FROM fact_venta fv, cliente c WHERE c.rif_clie=fv.rif_clie ORDER BY fv.fecha_venta";
+            String sql= "SELECT fv.id_fact, fv.fecha_venta, c.rs_clie FROM fact_venta fv, cliente c WHERE c.rif_clie=fv.rif_clie ORDER BY fv.fecha_venta, id_fact";
             PreparedStatement pstm= con.getConexion().prepareStatement(sql);
             ResultSet res= pstm.executeQuery();
             int i=0;
