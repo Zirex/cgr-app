@@ -25,6 +25,8 @@ import java.util.Calendar;
 import java.util.EventObject;
 import java.util.HashSet;
 import javax.swing.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -48,8 +50,29 @@ public class InternalVenta extends javax.swing.JInternalFrame {
         this.txtRif.setFocusLostBehavior(JFormattedTextField.COMMIT);
     }
     
+    private void setAnchoColumnas(){
+        JViewport scroll =  (JViewport) tablaVenta.getParent();
+        int ancho = scroll.getWidth();
+        int anchoColumna=0;
+        TableColumnModel modeloColumna = tablaVenta.getColumnModel();
+        TableColumn columnaTabla;
+        for (int i = 0; i < tablaVenta.getColumnCount(); i++) {
+            columnaTabla = modeloColumna.getColumn(i);
+            switch(i){
+                case 0: anchoColumna = (13*ancho)/100;
+                        break;
+                case 1: anchoColumna = (90*ancho)/100;
+                        break;
+                case 2: anchoColumna = (35*ancho)/100;
+                        break;
+                case 3: anchoColumna = (40*ancho)/100;
+                        break;
+            }                     
+            columnaTabla.setPreferredWidth(anchoColumna);           
+        }
+    }
+    
     private void cargarComboBoxProducto(){
-        cmbProductos.removeAll();
         String [] productos= Producto.nameProductos();
         for (String pro : productos) {
             cmbProductos.addItem(pro);
@@ -83,6 +106,7 @@ public class InternalVenta extends javax.swing.JInternalFrame {
                 }
             }
         });
+        this.setAnchoColumnas();
     }
     
     private void cargarTabla(){
