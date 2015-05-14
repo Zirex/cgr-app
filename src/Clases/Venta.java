@@ -496,7 +496,7 @@ public class Venta extends Conexion{
                 if(this.productosNegativos.isEmpty()){
                     sql="UPDATE producto SET existencia=existencia-"+item[2]+" WHERE id_prod='"+item[0]+"'";
                     st.execute(sql);
-                    sql="INSER INTO salida VALUES(?,?,?,?,?)";
+                    sql="INSERT INTO salida VALUES(?,?,?,?,?)";
                     PreparedStatement pstm= this.getConexion().prepareStatement(sql);
                     for (itemVenta it : this.listaItems) {
                         pstm.setString(1, it.getFactSal());
