@@ -500,11 +500,12 @@ public class Venta extends Conexion{
                     PreparedStatement pstm= this.getConexion().prepareStatement(sql);
                     for (itemVenta it : this.listaItems) {
                         pstm.setString(1, it.getFactSal());
-                            pstm.setString(2, it.getFacEnt());
-                            pstm.setString(3, it.getIdProd());
-                            pstm.setInt(4, it.getCantVenta());
-                            pstm.setFloat(5, it.getTtlCont());
+                        pstm.setString(2, it.getFacEnt());
+                        pstm.setString(3, it.getIdProd());
+                        pstm.setInt(4, it.getCantVenta());
+                        pstm.setFloat(5, it.getTtlCont());
                     }
+                    pstm.execute();
                     pstm.close();
                 }
             }

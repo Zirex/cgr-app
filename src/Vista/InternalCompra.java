@@ -44,7 +44,7 @@ public class InternalCompra extends javax.swing.JInternalFrame {
     }
     
     private void cargarComboBoxProducto(){
-        cmbProductos.removeAll();
+        cmbProductos.removeAllItems();
         String [] productos= Producto.nameProductos();
         for (String pro : productos) {
             cmbProductos.addItem(pro);
@@ -475,7 +475,7 @@ public class InternalCompra extends javax.swing.JInternalFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        this.limpiarCompra();
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void txtRifFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtRifFocusLost

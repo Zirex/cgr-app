@@ -508,6 +508,7 @@ public class InternalVenta extends javax.swing.JInternalFrame {
                                                       "La factura venta se ha actualizado correctamente",
                                                       "Actualizacion exitosa", 
                                                       JOptionPane.INFORMATION_MESSAGE);
+                    this.limpiarVenta();
                 }
                 else{
                     JOptionPane.showMessageDialog(this, 
