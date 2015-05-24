@@ -119,10 +119,8 @@ public class Venta extends Conexion{
                                                    contenido);
                     if(diferencia < 0){
                         this.buscarBDFC(idProd, cantidad);
-                        if(this.productosNegativos.isEmpty()){
-                            this.listaItems.add(venta);
-                            GuiPrincipal.listaFactCompProdExistentes.remove(compra);
-                        }
+                        if(this.productosNegativos.isEmpty())
+                            GuiPrincipal.listaFactCompProdExistentes.remove(compra);                        
                         break;
                     }
                     else if(diferencia == 0){
@@ -135,6 +133,7 @@ public class Venta extends Conexion{
                         venta.setCantVenta(cantidad);
                         venta.setTtlCont(cantidad*contenido);
                         this.listaItems.add(venta);
+                        compra.put("diferencia", diferencia);
                         break;
                     }
                 }

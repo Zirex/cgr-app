@@ -67,7 +67,7 @@
 			<textField>
 				<reportElement x="146" y="0" width="135" height="20" uuid="33c1a90b-a7d3-4889-a6eb-9f5176262619"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre_prod}]]></textFieldExpression>
 			</textField>

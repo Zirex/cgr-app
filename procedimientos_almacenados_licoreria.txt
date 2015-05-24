@@ -48,6 +48,7 @@ IF fecha_compra IS NULL THEN
 ELSE
 	OPEN cursor1;
 	REPEAT
+	-- Las variables num_fact, cantidadCompra se usan para almacenar los valores que nos traemos de la consulta cursor1
 	FETCH cursor1 INTO num_fact, cantidadCompra;
 
 		IF bContinuar THEN
@@ -56,14 +57,15 @@ ELSE
 			END IF;		
 
 			SET diferencia= cantidadCompra - cantidadVenta;
+			if(cantidadCompra>0) THEN
+				IF diferencia<0 THEN
+					INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadCompra, (cantidadCompra*ttlLitros), 0);
+					SET cantidadVenta= diferencia * -1;
 
-			IF diferencia<0 THEN
-				INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadCompra, (cantidadCompra*ttlLitros), 0);
-				SET cantidadVenta= diferencia * -1;
-
-				ELSEIF diferencia>=0 THEN
-					INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadVenta, (ttlLitros*cantidadVenta), diferencia);
-					SET bContinuar= false;
+					ELSEIF diferencia>=0 THEN
+						INSERT INTO tabla_temporal VALUES(num_fact, idProd, nom_prod, cantidadVenta, (ttlLitros*cantidadVenta), diferencia);
+						SET bContinuar= false;
+				END IF;
 			END IF;
 		END IF;
 
